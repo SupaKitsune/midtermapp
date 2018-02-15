@@ -1,3 +1,5 @@
+var url = mongodb://localhost:3000;
+
 /*
     Setup this project to your GitHub repo you will be handing in a link of the completed project for the exam.
 
@@ -35,9 +37,15 @@ var app = express();
     You will need an API Key to use forecast.io
     Sign up for an account and get your API Key here:
     https://darksky.net/dev
+	
+	key:
+	9828fe9df6de07320a2ec9bb3457f45d
+	
+	sample API call:
+	https://api.darksky.net/forecast/9828fe9df6de07320a2ec9bb3457f45d/37.8267,-122.4233
 */
 var options = {
-    APIKey: "ENTER YOUR API KEY HERE",
+    APIKey: "9828fe9df6de07320a2ec9bb3457f45d",
     timeout: 1000
   };//configures the options for forecast.io
 
@@ -48,30 +56,31 @@ var weather = new ForecastIo(options);//creates an instance of forecast.io
   Create a static route to the public folder.
   This will create a route to several essential JavaScript files and CSS files required for the app.
  */
-Your code here<----
+app.set('public', path.resolve(__dirname, 'public'))
 /*
   Step 4 
   Create a route to the views folder. 
   This folder has all the ejs files for the app.
 */
-Your code here<----
+app.set('views', path.resolve(__dirname, 'src/views'))
 /*
   Step 5 
   Set Morgan in dev mode so it logs all the requests to our server.
 */
-Your code here<----
+app.use(logger('dev'))
 /*
   Step 6 
   Set your view engine to ejs.
 */
-Your code here<----
+app.set('view engine', 'ejs')
 
 /*
   Step 7 
   Use a get to render the index page
 */
-
-Your code here<----
+app.get("/", ensureAuthenticated, function(request, response){
+	response.render("index")
+})
 
 //===The get below takes the 5 digets from the zip code and converts it to latitude and longitude coordinates 
 //===It does this through an ajax request in a script in public/main.js
@@ -110,12 +119,17 @@ app.use(function(req, res) {
     Step 8
     Setup the app to listen on port 3000 
 */
-Your code here<----
+MongoClient.connect(url, function(error){
+	if(error)throw error;
+	console.log("connected")
+})
 
 /*
     Step 9 
     Configure your app to run using the command npm start
     hint(check your package.json file)
+	
+	Fox - done
 */
 
 //==If all is connected properly you should be now able to run the midterm app from your command line 
