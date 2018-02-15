@@ -1,5 +1,3 @@
-var url = mongodb://localhost:3000;
-
 /*
     Setup this project to your GitHub repo you will be handing in a link of the completed project for the exam.
 
@@ -55,14 +53,18 @@ var weather = new ForecastIo(options);//creates an instance of forecast.io
   Step 3
   Create a static route to the public folder.
   This will create a route to several essential JavaScript files and CSS files required for the app.
+  Fox - Wrong code
+  app.set('public', path.resolve(__dirname, 'public'))
  */
-app.set('public', path.resolve(__dirname, 'public'))
+app.use(express.static("public"));
 /*
   Step 4 
   Create a route to the views folder. 
   This folder has all the ejs files for the app.
+  Fox - Wrong code
+  app.set('public', path.resolve(__dirname, 'views'))
 */
-app.set('views', path.resolve(__dirname, 'src/views'))
+app.use(express.static("views"));
 /*
   Step 5 
   Set Morgan in dev mode so it logs all the requests to our server.
@@ -78,7 +80,7 @@ app.set('view engine', 'ejs')
   Step 7 
   Use a get to render the index page
 */
-app.get("/", ensureAuthenticated, function(request, response){
+app.get("/", function(request, response){
 	response.render("index")
 })
 
@@ -119,9 +121,9 @@ app.use(function(req, res) {
     Step 8
     Setup the app to listen on port 3000 
 */
-MongoClient.connect(url, function(error){
-	if(error)throw error;
-	console.log("connected")
+var http = require('http')
+http.createServer(app).listen(3000, function(){
+	console.log("Weather app running on port 3000")
 })
 
 /*
